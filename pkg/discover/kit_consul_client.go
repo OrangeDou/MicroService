@@ -6,6 +6,7 @@ import (
 	"micro/pkg/common"
 	"strconv"
 
+	"github.com/hashicorp/consul/agent/consul"
 	"github.com/hashicorp/consul/api"
 	"github.com/hashicorp/consul/api/watch"
 )
@@ -157,5 +158,24 @@ func newServiceInstance(service *api.AgentService) *common.ServiceInstance {
 		Port:     service.Port,
 		GrpcPort: rpcPort,
 		Weight:   service.Weights.Passing,
+	}
+}
+func New(consulHost string, consulPort string) *DiscoveryClientInstance {
+	port, _ := strconv.Atoi(consulPort)
+	// 通过 Consul Host 和 Consul Port 创建一个 consul.Client
+	consulConfig := api.DefaultConfig()
+	consulConfig.Address = consulHost + ":" + strconv.Itoa(port)
+	apiClient, err := api.NewClient(consulConfig)
+	if err != nil {
+		return nil
+	}
+
+	client := consul.NewClient(apiClient)
+
+	return &DiscoveryClientInstance{
+		Host:   consulHost,
+		Port:   port,
+		config: consulConfig,
+		client: client,
 	}
 }
