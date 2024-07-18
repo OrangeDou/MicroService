@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package pb;
+
+// 定义RPC服务
+service OAuthService{
+    // token校验
+    rpc CheckToken(CheckTokenRequest) returns (CheckTokenResponse);
+}
+
+// 定义消息类型CheckTokenRequest
+message CheckTokenRequest{
+    string token = 1;
+}
+
+// 定义消息类型CheckTokenResponse
+message CheckTokenResponse{
+    UserDetails userDetails = 1;
+    ClientDetails clientDetails = 2;
+    bool isValidToken = 3;
+    string err = 4;
+}
+
+// 定义消息类型ClientDetails
+message ClientDetails{
+    string clientId = 1;    //客户端 ID
+    int32 accessTokenValiditySeconds = 2;   // 访问令牌的有效时间（秒）
+    int32 refreshTokenValiditySeconds = 3;  // 刷新令牌的有效时间（秒）
+    repeated string authorizedGrantTypes = 4;   //  授权类型列表
+}
+
+// 定义消息类型UserDetails
+message UserDetails {
+    int64 userId = 1;
+    string username = 2;
+    repeated string authorities = 3;    // 用户权限列表
+}
