@@ -128,13 +128,13 @@ func (consulClient *DiscoveryClientInstance) DiscoverServices(serviceName string
 
 	// 根据serviceName查询服务实例列表
 	entries, _, err := consulClient.client.Service(serviceName, "", false, nil)
-	// 如果出现错误，将 serviceName 对应的服务实例列表设置为空，存储在 consulClient.instancesMap 中。
+	// 如果出现错误，将 serviceName 对应的服务实例列表设置为空，存储在 consulClient.instancesMap中。
 	if err != nil {
 		consulClient.instancesMap.Store(serviceName, []*common.ServiceInstance{})
 		if logger != nil {
 			logger.Println("Discover Service Error!")
 		}
-		return nil
+		return nil //返回空列表
 	}
 	instances := make([]*common.ServiceInstance, len(entries))
 	for i := 0; i < len(instances); i++ {
