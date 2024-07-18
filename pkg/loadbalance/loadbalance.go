@@ -16,7 +16,7 @@ type WeightRoundRobinLoadBalance struct {
 // 权重平滑负载均衡
 func (loadBalance *WeightRoundRobinLoadBalance) SelectService(services []*common.ServiceInstance) (best *common.ServiceInstance, err error) {
 
-	if services == nil || len(services) == 0 {
+	if len(services) == 0 {
 		return nil, errors.New("service instances are not exist")
 	}
 
