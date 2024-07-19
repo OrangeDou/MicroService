@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/go-kit/kit/sd/consul"
-	"github.com/prometheus/client_golang/api"
+	"github.com/hashicorp/consul/api"
 )
 
 // 服务注册与发现客户端，封装注册、注销、发现方法

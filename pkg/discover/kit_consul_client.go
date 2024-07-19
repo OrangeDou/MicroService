@@ -6,7 +6,7 @@ import (
 	"micro/pkg/common"
 	"strconv"
 
-	"github.com/hashicorp/consul/agent/consul"
+	"github.com/go-kit/kit/sd/consul"
 	"github.com/hashicorp/consul/api"
 	"github.com/hashicorp/consul/api/watch"
 )
