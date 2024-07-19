@@ -15,3 +15,7 @@
 - pkg\loadbalance\loadbalance.go
 #### 3. RPC客户端装饰器
   微服务架构中，各个服务之间需要通过RPC相互交互，在之前的1和2小节已经实现了各个服务注册以及发现、负载均衡方法，在开始实现各个服务实例前，需要定义他们之间相互通信的RPC客户端，用于统一封装业务服务提供的RPC接口客户端。
+- pkg\client\oauth.go：鉴权服务RPC接口（CheckToken）
+- pkg\client\decorator.go：RPC接口的装饰器方法，作用是对RPC接口中传入的RPC路径进行RPC请求，并进行熔断保护、链路追踪、服务发现、负载均衡。真正实现RPC调用的是在这个方法中，而CheckToken效果就相当于本地方法。
+#### 4. Zookeeper集成
+ZooKeeper 是一个分布式协调服务，主要用于解决分布式系统中的数据管理问题，如统一配置管理、命名服务、分布式同步、组服务等。本项目的秒杀活动和秒杀商品信息会存储在ZooKeeper中，使用watcher机制实时更新信息。
