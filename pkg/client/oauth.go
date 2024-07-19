@@ -19,7 +19,7 @@ type OAuthClientImpl struct {
 	manager     ClientManager
 	serviceName string
 	loadbalance loadbalance.LoadBalance
-	tracer      opentracing.Tracer
+	tracer      opentracing.Tracer // 链路追踪器
 }
 
 // OAuthClient工厂方法，初始化impl实例
@@ -44,7 +44,7 @@ func NewOAuthClient(serviceName string, lb loadbalance.LoadBalance, tracer opent
 	}, nil
 }
 
-// checkToken方法，使用改RPC客户端的业务服务可以直接初始化Impl实例，调用内部的CheckToken方法，就像在调用本地方法，但是方法内部却实现了RPC调用
+// checkToken方法，使用该RPC客户端的业务服务可以直接初始化Impl实例，调用内部的CheckToken方法，就像在调用本地方法，但是方法内部却实现了RPC调用
 func (impl *OAuthClientImpl) CheckToken(ctx context.Context, tracer opentracing.Tracer, request *pb.CheckTokenRequest) (*pb.CheckTokenResponse, error) {
 	response := new(pb.CheckTokenResponse)
 	if err := impl.manager.DecoratorInvoke("/pb.OAuthService/CheckToken", "token_check", tracer, ctx, request, response); err == nil {
