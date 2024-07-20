@@ -3,9 +3,10 @@ package config
 import (
 	"sync"
 
+	"micro/sk-core/service/srv_limit"
+
 	"github.com/coreos/etcd/clientv3"
 	"github.com/go-redis/redis"
-
 	"github.com/samuel/go-zookeeper/zk"
 )
 
@@ -74,7 +75,7 @@ type SecKillConf struct {
 	IPBlackMap map[string]bool
 	IDBlackMap map[int]bool
 
-	//SecProductInfoMap map[int]*SecProductInfoConf
+	SecProductInfoMap map[int]*SecProductInfoConf
 
 	AppWriteToHandleGoroutineNum  int
 	AppReadFromHandleGoroutineNum int
@@ -92,6 +93,21 @@ type SecKillConf struct {
 	SendToWriteChanTimeout  int //
 	SendToHandleChanTimeout int //
 	TokenPassWd             string
+}
+
+// 商品信息配置
+type SecProductInfoConf struct {
+	ProductId         int     `json:"product_id"`           //商品ID
+	StartTime         int64   `json:"start_time"`           //开始时间
+	EndTime           int64   `json:"end_time"`             //结束时间
+	Status            int     `json:"status"`               //状态
+	Total             int     `json:"total"`                //商品总数量
+	Left              int     `json:"left"`                 //商品剩余数量
+	OnePersonBuyLimit int     `json:"one_person_buy_limit"` //单个用户购买数量限制
+	BuyRate           float64 `json:"buy_rate"`             //购买频率限制
+	SoldMaxLimit      int     `json:"sold_max_limit"`
+	// todo: error
+	SecLimit *srv_limit.SecLimit `json:"sec_limit"` //限速控制
 }
 
 // 访问限制
