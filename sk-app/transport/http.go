@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"log"
 	"micro/sk-app/model"
 	"net/http"
+
+	"github.com/go-kit/kit/log"
 
 	endpts "micro/sk-app/endpoint"
 
