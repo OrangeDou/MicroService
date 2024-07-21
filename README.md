@@ -1,14 +1,14 @@
-# Micro_service
+
 ## 秒杀系统的设计与实现
 ### 目录结构
 - pkg 基础组件
-    - bootstrap: 初始化配置信息
+    - bootstrap: 初始化配置信息。
 ### 实现步骤
 #### 1. 服务注册与发现
   使用Consul作为服务注册发现的组件，秒杀微服务的各个核心业务组件会注册到Consul并查询要通信的服务实例信息。
-- pkg\common\service_instance.go：定义服务实例相关属性
-- pkg\discover\discovery_client.go：定义服务注册与发现客户端，并声明注册、注销、发现方法
-- pkg\discover\kit_consul_client.go: 定义注册、注销、发现方法
+- pkg\common\service_instance.go：定义服务实例相关属性。
+- pkg\discover\discovery_client.go：定义服务注册与发现客户端，并声明注册、注销、发现方法。
+- pkg\discover\kit_consul_client.go: 定义注册、注销、发现方法。
 #### 2. 负载均衡策略
   抵抗较大的并发流量，结合服务注册与发现，可以对服务实例的数量动态的增加和减少，来应对不同的并发流量。
 使用service_instance来构建负载均衡体系。本项目使用带权重的平滑轮询策略实现负载均衡，每个实例具有一个默认的权重值以及当前动态权重，具体实现在：
@@ -20,10 +20,13 @@
 #### 4. Zookeeper集成
 ZooKeeper 是一个分布式协调服务，主要用于解决分布式系统中的数据管理问题，如统一配置管理、命名服务、分布式同步、组服务等。本项目的秒杀活动和秒杀商品信息会存储在ZooKeeper中，使用watcher机制实时更新信息。
 #### 5. 秒杀核心
-- sk-admin：秒杀管理系统
-- sk-core： 秒杀核心系统
-- sk-app：  秒杀业务系统
-    - app主要为前端提供查询和进行秒杀的HTTP接口，处理黑白名单、流量限制、通过redis将合法的请求发送给core，将结果返回给前端
-    - sk-app\setup\zk.go：初始化zk，加载秒杀商品信息
-
-- 
+秒杀逻辑使用go-kit搭建每个服务的相关逻辑以及流程，包括管理、核心、业务系统。
+- sk-admin：秒杀管理系统。
+- sk-core： 秒杀核心系统。
+- sk-app：  秒杀业务系统。
+    - app主要为前端提供查询和进行秒杀的HTTP接口，处理黑白名单、流量限制、通过redis将合法的请求发送给core，将结果返回给前端。
+    - core主要处理app发送的合法秒杀请求。
+    - admin主要将秒杀活动以及商品信息存储到MySQL以及同步到ZooKeeper，供core以及app调用。
+##### 5.1 sk-app
+核心功能由go-kit搭建：由内而外包括service层、endpoint层、transport层，以及相关模块如下：
+- service
