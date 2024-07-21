@@ -2,12 +2,14 @@ package setup
 
 import (
 	"log"
+	"strconv"
 	"time"
 
 	conf "micro/pkg/config"
 
+	"micro/sk-app/service/srv_redis"
+
 	"github.com/go-redis/redis"
-	"github.com/longjoy/micro-go-book/ch13-seckill/sk-app/service/srv_redis"
 )
 
 // 初始化Redis
@@ -44,7 +46,7 @@ func loadBlackList(conn *redis.Client) {
 	}
 
 	for _, v := range idList {
-		id, err := com.StrTo(v).Int()
+		id, err := strconv.Atoi(v)
 		if err != nil {
 			log.Printf("invalid user id [%v]", id)
 			continue
@@ -76,7 +78,7 @@ func syncIdBlackList(conn *redis.Client) {
 			log.Printf("brpop id failed, err : %v", err)
 			continue
 		}
-		id, _ := com.StrTo(idArr[1]).Int()
+		id, _ := strconv.Atoi(idArr[1])
 		conf.SecKill.RWBlackLock.Lock()
 		{
 			conf.SecKill.IDBlackMap[id] = true
