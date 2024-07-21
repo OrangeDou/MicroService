@@ -76,3 +76,9 @@ func MakeHealthCheckEndpoint(svc service.Service) endpoint.Endpoint {
 		return HealthResponse{status}, nil
 	}
 }
+func MakeSecInfoListEndpoint(svc service.Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (response interface{}, err error) {
+		ret, num, error := svc.SecInfoList()
+		return SecInfoListResponse{ret, num, error}, nil
+	}
+}
