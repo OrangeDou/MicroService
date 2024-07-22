@@ -55,6 +55,7 @@ require (
 	github.com/juju/ratelimit v1.0.2 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
+	github.com/lksunshine/zipkin-go-opentracing v0.0.0-20201107050926-e3c28a87d3da // indirect
 	github.com/longjoy/micro-go-book v0.0.0-20220721123104-2816995f87e0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
