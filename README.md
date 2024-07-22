@@ -29,4 +29,4 @@ ZooKeeper 是一个分布式数据一致性解决方案，主要用于解决分�
     - admin主要将秒杀活动以及商品信息存储到MySQL以及同步到ZooKeeper，供core以及app调用。
 ##### 5.1 sk-app
 核心功能由go-kit搭建：由内而外包括service层、endpoint层、transport层，以及相关模块如下：
-- service
+- service 
