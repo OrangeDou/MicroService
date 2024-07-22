@@ -14,8 +14,8 @@ import (
 
 	"github.com/afex/hystrix-go/hystrix"
 	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
+	zipkin "github.com/lksunshine/zipkin-go-opentracing"
 	"github.com/opentracing/opentracing-go"
-	zipkin "github.com/openzipkin-contrib/zipkin-go-opentracing"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
